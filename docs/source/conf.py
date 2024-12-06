@@ -16,7 +16,7 @@ release = 'v1.0'
 
 #extensions = []
 extensions = [
-    'recommonmark',
+    'myst_parser',
     'sphinx_markdown_tables'
     ] 
 
@@ -24,7 +24,11 @@ from recommonmark.parser import CommonMarkParser
 source_parsers = {
     '.md': CommonMarkParser,
 }
-source_suffix = ['.rst', '.md']
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.txt': 'markdown',
+    '.md': 'markdown',
+}
 
 templates_path = ['_templates']
 exclude_patterns = []
