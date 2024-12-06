@@ -16,7 +16,8 @@ release = 'v1.0'
 
 #extensions = []
 extensions = [
-    'recommonmark',
+    #'myst_parser',
+    #'recommonmark',
     'sphinx_markdown_tables'
 ]
 source_suffix = {
