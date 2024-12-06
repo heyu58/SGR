@@ -21,7 +21,6 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
-    'numpydoc',
     'sphinx_rtd_theme',
     'sphinx.ext.napoleon',
     'recommonmark',
