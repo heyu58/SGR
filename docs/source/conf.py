@@ -16,13 +16,6 @@ release = 'v1.0'
 
 #extensions = []
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.viewcode',
-    'sphinx_rtd_theme',
-    'sphinx.ext.napoleon',
     'recommonmark',
     'sphinx_markdown_tables'
 ]
@@ -40,7 +33,7 @@ language = 'zh_CN'
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-
+import sphinx_rtd_theme
 html_theme = "sphinx_rtd_theme"
 #html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 #html_theme = 'alabaster'
