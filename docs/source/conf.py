@@ -16,14 +16,17 @@ release = 'v1.0'
 
 #extensions = []
 extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.viewcode',
+    'numpydoc',
+    'sphinx_rtd_theme',
+    'sphinx.ext.napoleon',
     'recommonmark',
     'sphinx_markdown_tables'
-    ] 
-
-from recommonmark.parser import CommonMarkParser
-source_parsers = {
-    '.md': CommonMarkParser,
-}
+]
 source_suffix = {
     '.rst': 'restructuredtext',
     '.txt': 'markdown',
