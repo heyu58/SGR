@@ -1,4 +1,2 @@
 sphinx-rtd-theme
-sphinx.ext.autodoc
-sphinx.ext.viewcode
 myst_parser
