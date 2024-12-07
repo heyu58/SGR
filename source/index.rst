@@ -15,5 +15,5 @@ documentation for details.
    :maxdepth: 2
    :caption: contents:
 
-   我的日记
+   about
 
