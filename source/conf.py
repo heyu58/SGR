@@ -1,5 +1,9 @@
 # Configuration file for the Sphinx documentation builder.
 #
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))  # 将项目根目录添加到模块查找路径中去
+
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
