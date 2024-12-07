@@ -13,7 +13,7 @@ documentation for details.
 
 .. toctree::
    :maxdepth: 2
-   :caption: 目录:
+   :caption: contents:
 
-   example
+   我的日记
 
