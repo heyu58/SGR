@@ -5,12 +5,12 @@
 
 .. 这一页是目录树
 
-[heyu]Sphinx+Github+Readthedocs在线文档测试
+[heyu]Sphinx+Github+Readthedocs在线文档
 =====================
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Contents:
    
    causalinference/index

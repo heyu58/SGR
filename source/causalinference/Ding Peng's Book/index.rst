@@ -18,6 +18,12 @@ Ding Peng's Book
    pip install myst_parser
 
   
+conf.py文件中添加
+::
+
+   extensions = ['myst_parser']
+
+
 .. toctree::
    :maxdepth: 1
    :titlesonly:
