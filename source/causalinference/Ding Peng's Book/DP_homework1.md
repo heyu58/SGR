@@ -37,7 +37,7 @@ $$
 P(n_{11}=k)=\dfrac{C_{n_1}^{k}C_{n_0}^{n_{.1}-k}}{C_N^{n_{.1}}}
 $$
 
-#### 3.5
+#### 3.5 More Details for lady tasting tea
 
 $$
 P(X=k)=\begin{cases}
