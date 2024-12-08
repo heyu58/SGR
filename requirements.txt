@@ -1,2 +1,6 @@
+# markdown suport
+recommonmark
+# markdown table suport
+sphinx-markdown-tables
+
 sphinx-rtd-theme
-myst_parser

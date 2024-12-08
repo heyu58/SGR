@@ -1,19 +1,18 @@
-.. SGRDemo documentation master file, created by
-   sphinx-quickstart on Sat Dec  7 16:14:08 2024.
+.. sphinx文档规范与模版 documentation master file, created by
+   sphinx-quickstart on Thu Nov 21 10:50:33 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Sphinx+Github+Readthedocs在线文档测试
-=====================
+.. 这一页是目录树
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+[heyu]Sphinx+Github+Readthedocs在线文档测试
+=====================
 
 
 .. toctree::
    :maxdepth: 2
    :caption: contents:
 
-   about
+   test
+   
 
