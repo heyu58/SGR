@@ -18,4 +18,9 @@ recommonmark的使用说明：https://recommonmark.readthedocs.io/en/latest/inde
    pip install myst_parser
    
 
-DP_homwork1.md
+.. toctree::
+   :maxdepth: 1
+   :titlesonly:
+   :numbered:
+
+   DP_homework1
