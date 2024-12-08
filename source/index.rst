@@ -14,6 +14,6 @@
    :caption: contents:
 
    causalinference
-   ci1.md
+   ci/ci1.md
    
 
