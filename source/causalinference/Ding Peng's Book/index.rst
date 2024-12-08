@@ -23,11 +23,14 @@ Ding Peng's Book
    :titlesonly:
 
 .. code-block:: r
-
    DP_homework1
+.. code-block:: r
    DP_homework2
+.. code-block:: r
    DP_homework3
+.. code-block:: r
    DP_homework4
+.. code-block:: r
    DP_homework5
 
 
