@@ -22,6 +22,8 @@ Ding Peng's Book
    :maxdepth: 1
    :titlesonly:
 
+.. code-block:: r
+
    DP_homework1
    DP_homework2
    DP_homework3
