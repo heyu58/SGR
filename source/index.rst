@@ -14,5 +14,6 @@
    :caption: Contents:
    
    causalinference/index
+   essays/index
    
 
