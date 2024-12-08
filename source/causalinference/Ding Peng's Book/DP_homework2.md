@@ -117,7 +117,7 @@ $$
 
 #### 5.9 From CRE to SRE
 
-```{r}
+```
 library(Matching)
 data(lalonde)
 z=lalonde$treat#treatment
@@ -128,7 +128,7 @@ Fisherian inference基于强零假设$H_{0F}$构造CRE下的检验，得到检�
 
 Neymanian inference在有限总体的CRE假设下，构造平均因果作用的无偏点估计，并获得置信区间
 
-```{r}
+```
 #Fisehrian inference
 fisher.pv = c(
   tauhat.p.value =t.test(y[z == 1],y[z == 0],var.equal=TRUE)$p.value,
@@ -145,7 +145,7 @@ neyman.pv = c(neyman.p.value = summary(olsfit)$coef[2,4])
 neyman.pv
 ```
 
-```{r}
+```
 Neyman_SRE = function(z,y,x){
   xlevels = unique (x)#x作为block,y作为outcome,z作为treatment
   K = length (xlevels)
@@ -168,7 +168,7 @@ Neyman_SRE = function(z,y,x){
 }
 ```
 
-```{r}
+```
 z=lalonde$treat#treatment
 y=lalonde$re78#outcome
 
@@ -241,7 +241,7 @@ $$
 
 #### Estimating ACE in randomized experiments with GLM
 
-```{r}
+```
 set.seed(100)
 n=10000;p=8#八个变量
 X = matrix(rnorm(n*p), n, p)
@@ -261,7 +261,7 @@ rm( list=c('gamma1','gamma0','Y1','Y0','p.Y1','p.Y0'))
 
 ##### (a)Use linear regression to do the 9 regressions and report the coefficient of Z. Plot a figure with x-axis to be the number of covariates included and y-axis to be the estimates.
 
-```{r}
+```
 models <- list()
 models[[1]] <- lm(Y~Z,data=dt)
 for (i in 1:8) {
@@ -281,7 +281,7 @@ text(1:9, y, labels=round(y,3), pos=3, cex=0.8)
 
 ##### (b)Use logistic regression to do the same analysis. If you are interested, you could also use other link functions such as probit, tobit, complementary log-log.
 
-```{r}
+```
 models <- list()
 models[[1]] <- glm(Y~Z,data=dt,family = binomial())
 for (i in 1:8) {

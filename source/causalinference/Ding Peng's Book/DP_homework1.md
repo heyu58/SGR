@@ -51,7 +51,7 @@ $$
 
 #### 3.6 Covariate-adjusted FRT
 
-```{r}
+```
 library(Matching)
 data(lalonde)
 z=lalonde$treat#treatment
@@ -74,7 +74,7 @@ W = wilcox.test(re[z == 1],re[z == 0])$statistic
 D = ks.test(re[z == 1],re[z == 0])$statistic
 ```
 
-```{r}
+```
 #检验p值
 asym.pv = c(
   tauhat.pv = t.test(re[z==1],re[z==0],var.equal = TRUE)$p.value,
@@ -86,7 +86,7 @@ asym.pv = c(
 round(0.5*asym.pv , 3)
 ```
 
-```{r}
+```
 model_treatment = lm(y~z+#treatment
                        lalonde$age+
                        lalonde$educ+

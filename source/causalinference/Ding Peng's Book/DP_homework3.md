@@ -30,7 +30,7 @@ $$
 
 ##### (1)Stratified analysis
 
-```{r}
+```
 library(senstrat)
 dt<-homocyst[,-c(1,4)]#去掉第1,4个变量SEQN,stf
 t<-as.data.frame(table(dt$st, dt$z))
@@ -41,7 +41,7 @@ idx<-c(4,6,29,46,47,17,48,51,53,54, 57, 69, 76, 78, 94, 100, 105, 106)
 dt_1<-dt[!dt$st %in% idx, ]#取反保证取出st不在a中的数据
 ```
 
-```{r}
+```
 var0 <- function(x) {
   if (length(x) == 1) {return(0)} 
   else {return(var(x))}
@@ -73,7 +73,7 @@ Neyman_SRE(dt_1$z,dt_1$homocysteine,dt_1$st)
 
 ##### (2)Run the OLS
 
-```{r}
+```
 library(car)
 #利用EHW方法得到robust standard error
 fit1<-lm(homocysteine~.,data = dt[,-3])
@@ -88,7 +88,7 @@ out
 
 ##### (3)Lin's estimater
 
-```{r}
+```
 #Lin's estimater(注意需要对协变量做标准化,无论连续还是离散)
 vars_to_scale <- c("female","age3", "ed3", "bmi3", "pov2")
 for (var in vars_to_scale) {
@@ -305,7 +305,7 @@ $$
 
 -   case4：两个模型假设都是错误的
 
-    ```{r}
+    ```
     ATT.est = function (z,y,x,out.family = gaussian, Utruncps = 1){
       ## sample size
       nn = length(z);nn1 = sum (z)
@@ -353,7 +353,7 @@ $$
 
 ##### (c)display
 
-```{r}
+```
 n = 500
 #case1
 print("case1:两个模型假设都是正确的")
