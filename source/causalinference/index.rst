@@ -1,9 +1,9 @@
-Ding Peng's Book 
+因果推断
 =====================
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    Ding Peng's Book/index
    
