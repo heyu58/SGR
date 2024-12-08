@@ -14,6 +14,6 @@
    :caption: contents:
 
    causalinference
-   ci/ci1.md
+   Ding Peng's Book 
    
 
