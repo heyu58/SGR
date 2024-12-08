@@ -12,7 +12,7 @@ Ding Peng's Book
 
 本人目前在中山大学读统计学方向硕士，邮件地址为：heyu58@mail2.sysu.edu.cn
 
-关于如何在Sphinx中md文档，最新的版本推荐使用myst_parser，已经不在使用recommonmark
+关于如何在Sphinx中导入md文档，最新的版本推荐使用myst_parser，已经不在再使用recommonmark
 ::
 
    pip install myst_parser
@@ -28,6 +28,6 @@ Ding Peng's Book
    DP_homework4
    DP_homework5
 
-   
+
 
 
