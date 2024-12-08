@@ -2,6 +2,6 @@
 recommonmark
 
 # markdown table suport
-sphinx-markdown-tables
+#sphinx-markdown-tables
 
 sphinx-rtd-theme
