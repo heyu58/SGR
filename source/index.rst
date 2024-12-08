@@ -14,6 +14,6 @@
    :caption: contents:
 
    causalinference
-   Ding Peng's Book 
+   causalinference/index
    
 
