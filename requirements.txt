@@ -5,3 +5,5 @@ recommonmark
 #sphinx-markdown-tables
 
 sphinx-rtd-theme
+
+myst_parser
