@@ -1,6 +1,3 @@
-## Peng Ding's Book
-
-一部分课后习题的答案，以及拓展题目（辛普森悖论模拟）
 #### 2.2 Nonlinear causal estimates
 
 1.  Example:
