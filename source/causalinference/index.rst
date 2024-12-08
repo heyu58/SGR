@@ -5,5 +5,6 @@
 .. toctree::
    :maxdepth: 2
 
+   causalinference
    Ding Peng's Book/index
    

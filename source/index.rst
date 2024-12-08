@@ -11,9 +11,8 @@
 
 .. toctree::
    :maxdepth: 3
-   :caption: contents:
-
-   causalinference
+   :caption: Contents:
+   
    causalinference/index
    
 
