@@ -1,14 +1,6 @@
----
-title: "因果推断第一次作业"
-output:
-  html_document: default
-  word_document: default
-  pdf_document: default
-date: "2024-09-24"
----
+## Peng Ding's Book（Chapter2,3 and Appendix A）
 
-## Peng Ding's Book
-
+一部分课后习题的答案，以及拓展题目（辛普森悖论模拟）
 #### 2.2 Nonlinear causal estimates
 
 1.  Example:
@@ -220,70 +212,3 @@ P(t=k)=\frac{C_T^kC_{n-T}^{n_1-k}}{C_n^{n_1}}
 $$
 
 因此统计量服从超几何分布$E(t)=n_1\frac{T}{n},D(t)=n_1\frac{T(n-T)(n-n_1)}{n^2(n-1)}$
-
-## Variable selection and Simpson’s paradox
-
-```{r}
-library("haven")
-lalonde = read_dta("D://Desktop//nsw_cps.dta")
-z=lalonde$treat#treatment
-y=lalonde$re78#outcome
-variables <- c("lalonde$age","lalonde$education","lalonde$black","lalonde$hispanic","lalonde$married","lalonde$nodegree","lalonde$re74","lalonde$re75")
-# 使用combn函数生成所有可能的变量组合
-library(gtools)
-all_combinations <- list()
-for (i in 1:length(variables)) {
-  all_combinations[[i]] <- combn(variables, i, simplify = FALSE)
-}
-all_combinations <- Filter(Negate(is.null), all_combinations)
-all_combinations <- do.call(c, all_combinations)
-
-# 初始化一个向量来存储变量Z的系数
-z_coefficients <- numeric()
-z_pvalues <- numeric()
-```
-
-```{r}
-# 对每一种变量组合进行回归分析，并提取变量Z的系数
-for (combination in all_combinations) {
-  # 构建回归模型
-  formula <- as.formula(paste("y ~ z+", paste(combination, collapse = " + ")))
-  model <- lm(formula)
-  # 提取变量Z的系数
-  z_coefficient <- coef(model)["z"]
-  z_pvalue <- summary(model)$coef[2,4]#记录p值
-  z_coefficients <- c(z_coefficients, z_coefficient)
-  z_pvalues <- c(z_pvalues, z_pvalue)
-}
-```
-
-#### (a)
-
-```{r}
-paste("positive coef number:",length(z_coefficients[z_coefficients>0]))
-paste("negative coef number:",length(z_coefficients[z_coefficients<0]))
-```
-
-#### (b)
-
-```{r}
-paste("significant coef number:",length(z_pvalues[z_pvalues<0.05]))
-paste("negatively significant coef number:",length(z_pvalues[z_pvalues>=0.05]))
-```
-
-#### (c)
-
-```{r}
-paste("positive coef number:",length(z_coefficients[z_coefficients>0&z_pvalues<0.05]))
-paste("negative coef number:",length(z_coefficients[z_coefficients<0&z_pvalues<0.05]))
-```
-
-|               | positive | negative | total |
-|---------------|----------|----------|-------|
-| significant   | 3        | 38       | 41    |
-| unsignificant | 145      | 69       | 214   |
-| total         | 148      | 107      | 255   |
-
-可以观察到如果只考虑系数为正的个数多于为负的个数，会认为treatment应该具有正方向的作用
-
-然而如果只关注于显著的模型系数，正个数远远小于负个数，会认为treatment应该具有负方向的作用
