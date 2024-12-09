@@ -14,6 +14,7 @@
    :caption: Contents:
    
    causalinference/index
-   essays/index
+   Oracle/index
+   others/index
    
 
