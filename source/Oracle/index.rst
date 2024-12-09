@@ -7,6 +7,21 @@ Oracle
 =====================
 
 本学期（2024春）选修了中山大学黄志洪老师的《数据库原理与应用》课程，Oracle授课。此处整理一部分习题，欢迎交流学习。
+黄志洪老师本人授课风格强烈，有大量一线业务经历，其创办的炼数成金网站也是良好的学习平台.以下内容都是节选自其授课PPT中：
+
+Oracle三大难度之巅：with递归（N皇后问题），层次查询（员工信息传递最短路径问题），分析函数
+
+什么是大数据？任何简单的场景，只要量上去了，都会变得非常复杂
+
+为什么需要分布式集群（以提供可线性增长的计算力和存储能力）而不是巨型计算机？
+
+Thomas Kyte号称“知晓Oracle的一切”。从Oracle 7.0.9版本开始就一直
+任职于Oracle公司，不过，其实他从5.1.5c版本就开始使用Oracle了。 在
+Oracle公司，Kyte的任务是帮助使用Oracle数据库的客户，并与他们共同
+设计和构建系统，或者对系统进行重构和调优。Thomas Kyte就是主持
+Oracle Magazine Ask Tom专栏和Oracle公司同名在线论坛的那个Tom，他
+通过这一方式热心地回答困扰着Oracle开发人员和DBA的各种问题
+
 
 
 环境变量永久化设置
@@ -21,9 +36,15 @@ Oracle
 
 SQL初级语句（以emp表,deptno表为例）
 --------------------
+相信学SQL语句都是从select语句开始，一以下是各种子句的执行顺序
+Where----group by----having----order by
+
+
 列出e工资在 2000-3000 之间（包括临界值）并且没有提成的员工
 
-``select * from emp where sal between 2000 and 3000 and comm is null;``
+::
+    
+    select * from emp where sal between 2000 and 3000 and comm is null;
 
 列出和JONES 同一部门的员工名字
 
@@ -100,11 +121,14 @@ SQL初级语句（以emp表,deptno表为例）
 
 列出部门的名称和部门内员工的不同工种数
 
-``select deptno,count(distinct job) from emp group by deptno;``
+::
+    
+    select deptno,count(distinct job) from emp group by deptno;
 
 求每年进入公司工作的员工数 
 
-``select trunc(hiredate,'year'),count(distinct ename) from emp group by trunc(hiredate,'year');``
+::
+    select trunc(hiredate,'year'),count(distinct ename) from emp group by trunc(hiredate,'year');
 
 
 用 1 条 SQL 语句建立以下统计表格，分别统计每个部门，每个年份进入公司，每个工种 的人数
@@ -197,7 +221,9 @@ SQL中级语句
 
 ::
     
-    Merge into A using B on (A.id=B.id) when matched then update set A.id=B.id when not matched then insert values(B.id,B.newsale)
+    Merge into A using B on (A.id=B.id) 
+    when matched then update set A.id=B.id 
+    when not matched then insert values(B.id,B.newsale)
 
 
 在之前的学生选修表 SC 与课程表 C 放置一些数据，写一条 SQL 求出选修了 C 表所列全部课程 的学生名单
@@ -222,9 +248,36 @@ SQL中级语句
     select * from SCwide unpivot(a for b in (C1,C2,C3,C4,C5));
 
 
-用户、权限、角色
+用户、权限、角色、同义词、视图
 ---------------------------
+用户（User）：数据库中的一个账号，每个用户都有自己的权限和角色。用户可以创建自己的表空间和数据库对象。
+Oracle数据库在安装后会默认创建一些系统用户，如sys、system和scott等
 
+权限（Privilege）：分为系统权限和对象权限
+系统权限：允许用户执行特定的数据库操作，例如CREATE SESSION、CREATE TABLE等
+对象权限：允许用户对特定数据库对象进行操作，例如SELECT、INSERT、UPDATE、DELETE等
+
+同义词（Synonym）：是为数据库对象（如表、视图、序列等）创建的别名，允许用户忽略对象的所有者前缀，直接访问对象。
+视图（View）：基于SQL查询的虚拟表，可以简化复杂的SQL操作，提高数据安全性。视图可以包含表的列或计算字段，用户可以像操作普通表一样对视图进行查询
+
+::
+
+    create user y1 identified by y1; #创建用户y1,密码y1
+    grant connect to y1;  #授权可以连接到Oracle
+    grant create synonym to y1; #授权创建公共同义词
+    grant create view to y1; #授权创建视图
+    grant select any table to y1;  #授权可以访问任意表
+    
+
+角色（Role）：一组权限的集合，可以简化权限管理。常见的角色包括：
+CONNECT：允许用户连接到数据库并执行基本操作，如CREATE SESSION、CREATE SYNONYM、CREATE VIEW等
+RESOURCE：允许用户创建自己的数据库对象，如表、序列、视图等
+DBA：拥有所有系统权限，是数据库管理员角色
+
+::
+
+    create role y2;  #创建角色y2
+    grant connect to y2； #为y2角色赋予连接权利
 
 
 PL/SQL存储函数
@@ -270,12 +323,113 @@ PL/SQL存储函数
 
 游标
 ------------------------------
+之前的作业导入了“上证指数历史数据”，请写一段 PLSQL 代码，用建立游标的方法，找出所有“连升三天”“连跌三天”的日期 
 
+::
+    DECLARE
+        cursor cur IS SELECT to_date(day,'yyyy/mm/dd') as day, close FROM SS001 ORDER BY day;
+        sal_today   NUMBER;
+        sal_yesterday NUMBER;
+        sal_day_before_yesterday NUMBER;-- 定义变量来存储结果集
+        daystart date;
+        dayend date;
+        cur_row cur%rowtype;-- 游标类型变量
+    BEGIN
+        open cur;
+        loop
+        FETCH cur INTO cur_row;
+        EXIT WHEN cur%NOTFOUND;  #直到游标抓取为空
+        IF cur%ROWCOUNT = 1 THEN
+            sal_today := cur_row.close;
+        ELSIF cur%ROWCOUNT =2 THEN
+            sal_yesterday:=sal_today; 
+            sal_today:=cur_row.close;
+        -- 检查是否是前两行数据
+        ELSE
+            sal_day_before_yesterday := sal_yesterday;
+            sal_yesterday := sal_today;
+            sal_today := cur_row.close;
+            -- 检查连升三天
+            IF sal_today>sal_yesterday AND sal_yesterday>sal_day_before_yesterday THEN
+                dayend := cur_row.day;
+                daystart:=dayend-3;
+                DBMS_OUTPUT.PUT_LINE
+                ('芜湖连升三天: '||to_char(daystart,'yyyy-mm-dd')||'到'||to_char(dayend,'yyyy-mm-dd'));
+            END IF;
+            -- 检查连跌三天
+            IF sal_today<sal_yesterday AND sal_yesterday<sal_day_before_yesterday THEN
+                dayend := cur_row.day;
+                daystart:=dayend-3;
+                DBMS_OUTPUT.PUT_LINE
+                ('我靠连跌三天:'||to_char(daystart,'yyyy-mm-dd')||'到'||to_char(dayend,'yyyy-mm-dd'));
+            END IF;
+        END IF;
+        END LOOP;
+        close cur;
+    END;
 
 
 触发器
 -------------------------------
+Oracle触发器是Oracle数据库中一种特殊的存储过程，它能够在特定数据库事件发生时自动执行预定义的操作
 
+写一个触发器，使emp表只有在周一到周五8:00-18:00这个时间段才可以被修改
+
+::
+
+    create or replace trigger s_emp
+    before insert on emp
+    begin
+    if (to_char(sysdate,'DY') in ('星期六','星期日') 
+    or (to_char(sysdate,'HH24:MI') not between 
+    '08:00' and '18:00'))
+    then raise_application_error(-20500,'有人入侵');
+    end if;
+    end;
+
+写一个触发器，用于记录所有的修改记录（审计需求）
+
+::
+
+
+    create table rec (name varchar2(40),time date);
+    #创建一个表rec用于记录修改情况
+
+    create or replace trigger rec_update
+    after update on emp
+    begin
+    insert into rec values(user,sysdate);
+    end;
+
+
+
+写一个触发器，禁止除了boss以外的人工资记录超过5000
+
+::
+
+    create or replace trigger r_sal
+    before insert or update of sal on emp for each row
+    begin
+    if not (:new.ename='KING') and :new.sal>=5000
+    then raise_application_error(-20202,'非法工资');
+    end if;
+    end;
+
+
+触发器的合理应用有助于保持数据一致性和安全性，但过多触发器会导致调试复杂，影响性能（点火顺序问题）
+
+::
+
+    #禁用触发器 
+    alter trigger tri_uname(触发器名字) disable;
+    #激活触发器 
+    alter trigger tri_uname(触发器名字) enable;
+    #重新编译 
+    alter trigger tri_uname(触发器名字) complie;
+    #禁用某个表上的触发器 
+    alter table table_name(表名) diable all triggers;
+    #删除触发器 
+    DROP TRIGGER tri_uname(触发器名字);
 
 
 Oracle中DBMS包应用
@@ -342,3 +496,42 @@ DBMS_UTILITY：提供数据库管理和调试工具
     CONNECT sys/sys as sysdba
     SELECT owner,tablespace_name,blocks,extent_id,bytes 
     FROM dba_extents where segment_name='SS001';
+
+
+
+数据字典应用
+-----------------------------
+列出用户拥有的表、列出用户拥有的表中的列、观看用户拥有的特定对象
+
+::
+
+    desc user_tables  #列出当前用户所拥有的表
+    desc user_views  #列出当前用户拥有的视图
+    desc user_sys_privs   #列出当前用户系统特权
+    select username from dba_users   #列出所有用户（注意是否有权限）
+    select * from user_sys_privs where username='SCOTT'  #列出SCOTT的所有权限（注意是否有权限）
+
+查出系统最近三天创建的表
+
+::
+
+    select owner,object_name from dba_objects
+    where object_type='TABLE'
+    and created>sysdate-3
+
+
+SQL高级语句（分析函数）
+-------------------------------
+从一个简单的例子出发开始学习分析函数，<over>是分析函数的关键词
+此外还有分区短语（partition by），排序短语（order by），开窗短语（rows/range between...）
+
+::
+
+    select empno,ename,deptno,hiredate,sal,
+    avg(sal) over (partition by deptno order by hiredate) avg_sal,
+    sum(sal) over (partition by deptno order by hiredate) sum_sal,
+    max(sal) over (partition by deptno order by hiredate) max_sal,
+    count(sal) over (partition by job order by hiredate) count_sal
+    from emp;
+
+常用的分析函数包括：1、统计函数 2、排序函数 3、数据分布函数 4、统计分析函数
