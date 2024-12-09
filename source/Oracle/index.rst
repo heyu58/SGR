@@ -326,6 +326,7 @@ PL/SQL存储函数
 之前的作业导入了“上证指数历史数据”，请写一段 PLSQL 代码，用建立游标的方法，找出所有“连升三天”“连跌三天”的日期 
 
 ::
+    
     DECLARE
         cursor cur IS SELECT to_date(day,'yyyy/mm/dd') as day, close FROM SS001 ORDER BY day;
         sal_today   NUMBER;
