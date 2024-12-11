@@ -112,6 +112,7 @@ Where----group by----having----order by
 
 
 ::
+
      update emp set sal=sal+300 where ename in (
      select ename from (select rownum r,s.ename from 
      (select rownum,e.* from emp e order by sal) s) 
@@ -127,6 +128,7 @@ Where----group by----having----order by
 求每年进入公司工作的员工数 
 
 ::
+
     select trunc(hiredate,'year'),count(distinct ename) from emp group by trunc(hiredate,'year');
 
 
@@ -237,7 +239,7 @@ Where----group by----having----order by
 **【注意】如果在delete语句后面忘记加where条件，将删除全部行！**
 
 
-SQL中级语句
+SQL中级语句(反选<>,exists,pivot,连接)
 ------------------------------
 
 表 A 有 C1，C2 两列，分别记录了所有商品编号（唯一）和商品价格，表 B 也有 C1 和 C2 列，记录了部分商品（非全部）的新价格，请用 B 的数据更新 A 表中的商品价格
@@ -325,15 +327,15 @@ SQL中级语句
 
 用户、权限、角色、同义词、视图
 ---------------------------
-用户（User）：数据库中的一个账号，每个用户都有自己的权限和角色。用户可以创建自己的表空间和数据库对象。
+* 用户（User）：数据库中的一个账号，每个用户都有自己的权限和角色。用户可以创建自己的表空间和数据库对象。
 Oracle数据库在安装后会默认创建一些系统用户，如sys、system和scott等
 
-权限（Privilege）：分为系统权限和对象权限
+* 权限（Privilege）：分为系统权限和对象权限
 系统权限：允许用户执行特定的数据库操作，例如CREATE SESSION、CREATE TABLE等
 对象权限：允许用户对特定数据库对象进行操作，例如SELECT、INSERT、UPDATE、DELETE等
 
-同义词（Synonym）：是为数据库对象（如表、视图、序列等）创建的别名，允许用户忽略对象的所有者前缀，直接访问对象。
-视图（View）：基于SQL查询的虚拟表，可以简化复杂的SQL操作，提高数据安全性。视图可以包含表的列或计算字段，用户可以像操作普通表一样对视图进行查询
+* 同义词（Synonym）：是为数据库对象（如表、视图、序列等）创建的别名，允许用户忽略对象的所有者前缀，直接访问对象。
+* 视图（View）：基于SQL查询的虚拟表，可以简化复杂的SQL操作，提高数据安全性。视图可以包含表的列或计算字段，用户可以像操作普通表一样对视图进行查询
 
 ::
 
@@ -344,7 +346,8 @@ Oracle数据库在安装后会默认创建一些系统用户，如sys、system�
     grant select any table to y1;  --授权可以访问任意表
     
 
-角色(Role):一组权限的集合，可以简化权限管理。常见的角色包括:
+* 角色(Role):一组权限的集合，可以简化权限管理。
+常见的角色包括:
 CONNECT：允许用户连接到数据库并执行基本操作,如CREATE SESSION、CREATE SYNONYM、CREATE VIEW等
 RESOURCE：允许用户创建自己的数据库对象,如表、序列、视图等
 DBA：拥有所有系统权限，是数据库管理员角色
@@ -361,7 +364,7 @@ DBA：拥有所有系统权限，是数据库管理员角色
 
 数据字典
 -----------------------------
-数据字典视图：预先构建好的系统表的视图的公共同义词
+* 数据字典视图：预先构建好的系统表的视图的公共同义词
 每种视图具有特定的功能，例如查询表的信息，用户信息，权限信息，存储空间等。
 用户可以通过查询数据字典视图了解系统运行情况
 困难：要记住成百上千的视图名
@@ -402,7 +405,7 @@ SQL高级语句（分析函数）
     count(sal) over (partition by job order by hiredate) count_sal
     from emp;
 
-常用的分析函数包括：1、统计函数 2、排序函数 3、数据分布函数 4、统计分析函数
+* 常用的分析函数包括：1、统计函数 2、排序函数 3、数据分布函数 4、统计分析函数
 
 
 PL/SQL存储函数
