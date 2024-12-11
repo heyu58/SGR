@@ -3,25 +3,23 @@
 
 .. highlight:: sh
 
-Oracle
+数据库原理与应用
 =====================
 
 本学期（2024春）选修了中山大学黄志洪老师的《数据库原理与应用》课程，Oracle授课。此处整理一部分习题，欢迎交流学习。
 黄志洪老师本人授课风格强烈，有大量一线业务经历，其创办的炼数成金网站也是良好的学习平台.以下内容都是节选自其授课PPT中：
 
-Oracle三大难度之巅：with递归（N皇后问题），层次查询（员工信息传递最短路径问题），分析函数
+* Oracle三大难度之巅：with递归（N皇后问题），层次查询（员工信息传递最短路径问题），分析函数
 
-什么是大数据？任何简单的场景，只要量上去了，都会变得非常复杂
+* 什么是大数据？任何简单的场景，只要量上去了，都会变得非常复杂
 
-为什么需要分布式集群（以提供可线性增长的计算力和存储能力）而不是巨型计算机？
+* 为什么需要分布式集群（以提供可线性增长的计算力和存储能力）而不是巨型计算机？
 
-Thomas Kyte号称“知晓Oracle的一切”。从Oracle 7.0.9版本开始就一直
-任职于Oracle公司，不过，其实他从5.1.5c版本就开始使用Oracle了。 在
-Oracle公司，Kyte的任务是帮助使用Oracle数据库的客户，并与他们共同
-设计和构建系统，或者对系统进行重构和调优。Thomas Kyte就是主持
-Oracle Magazine Ask Tom专栏和Oracle公司同名在线论坛的那个Tom，他
-通过这一方式热心地回答困扰着Oracle开发人员和DBA的各种问题
+* 数据库的核心问题：怎样存储（存储引擎），怎样快速定位（索引），怎样查询和维护（操作命令的解析，需要一整套语法固定的万能查询语言）
 
+* Oracle官网: https://docs.oracle.com/en/database/oracle/oracledatabase/21/development.html
+
+* 是否有完善的高可用、负载均衡、灾备能力是企业级数据库软件与开源软件的分水岭
 
 
 环境变量永久化设置
@@ -29,6 +27,7 @@ Oracle Magazine Ask Tom专栏和Oracle公司同名在线论坛的那个Tom，他
 
 ::
 
+   show all --查看sqlplus的环境变量
    set linesize 120
    set pagesize 90
    set heading off
@@ -57,7 +56,7 @@ Where----group by----having----order by
 ::
 
     select * from emp where ename like 'S____';
-    #（测试通配符%与_的区别）
+    --（测试通配符%与_的区别）
 
 列出在芝加哥工作的员工，并且按工资从高到低排列 
 
@@ -100,7 +99,7 @@ Where----group by----having----order by
 ::
 
     update (select * from emp natual join dept) set sal=sal+decode(loc,‘BOSTON’,300,‘NEW YORK’,500,‘CHICAGO’,380,‘DALLAS’,210);
-    #(可直接对视图修改)
+    --(可直接对视图修改)
 
 给 EMP 表增加一列 LOC，然后记录每位员工所在城市
 
@@ -154,7 +153,7 @@ Where----group by----having----order by
     1997/7/3,1194.676025,1194.676025,1149.939941,1150.623047,1150.623047,0
     1997/7/4,1138.921021,1163.249023,1124.776001,1159.342041,1159.342041,0
     1997/7/7,1161.707031,1163.447021,1085.572021,1096.81897,1096.81897,0
-    ...#存放的上证指数数据在之后的分析函数中会用到
+    ...--存放的上证指数数据在之后的分析函数中会用到
 
 我们在同样的位置C:\Temp创建一个名为ss的ctl控制文件,内容为：
 
@@ -187,24 +186,55 @@ Where----group by----having----order by
 ::
 
     create table S(
-        S# varchar2(5),
+        S-- varchar2(5),
         SN varchar2(5) not null,
         SD varchar2(5),
         SA number(3),
-        Primary key (S#));
+        Primary key (S--));
     create table C(
-        C# varchar2(5),
+        C-- varchar2(5),
         CN varchar2(5) not null,
-        PC# varchar2(5),
-        primary key (C#));
+        PC-- varchar2(5),
+        primary key (C--));
     create table SC(
-        S# varchar2(5),
-        C# varchar2(5),
+        S-- varchar2(5),
+        C-- varchar2(5),
         G number(3) check (G between 0 and 100),
-        primary key (S#,C#),
-        constraint SC_FKS foreign key (S#) references S(S#),
-        constraint SC_FKC foreign key (C#) references C(C#),
+        primary key (S--,C--),
+        constraint SC_FKS foreign key (S--) references S(S--),
+        constraint SC_FKC foreign key (C--) references C(C--),
         constraint SC_CHECK check (G between 0 and 100));
+    desc S--通过desc语句查看表
+
+
+视图
+---------------------------------
+视图不保存实际数据，只保存生成视图的select语句，当访问视图时，select语句会被运行，从基表获得数据生成视图数据
+* 对基表的修改会影响视图数据
+* 对视图的修改会反映在基表上
+
+列出公司中工资最高的头三名员工（可以用视图解决Top n问题）
+::
+
+    create view vtop as ......;
+    select * from vtop where rownum<=3;
+    drop view vtop; 
+
+
+插入、修改和删除数据
+---------------------------------
+::
+
+    --不同的插入数据方式
+    insert into emp (empno,ename,hiredate) values (1110,'Jim','20-11月-10');
+    insert into emp (empno,ename,hiredate) values (1110,'Jim',to_date('19901212100000','yyyymmddhh'));
+    insert into emp select empno,ename from emp where job='SALESMAN';
+    --修改数据
+    update emp set sal=8000 where ename='Jim';
+    --注意删除操作的高危型
+    delete from emp where enmae = 'Jim';
+
+**【注意】如果在delete语句后面忘记加where条件，将删除全部行！**
 
 
 SQL中级语句
@@ -214,10 +244,10 @@ SQL中级语句
 
 ::
      
-    #利用exists确保只更新与B中id匹配的行
+    --利用exists确保只更新与B中id匹配的行
     update A set sale=(select B.newsale from B where A.id=B.id) where exists (select 1 from B where A.id=B.id);
 
-如果要更新的表中存在之前没有的变量
+* 如果要更新的表中存在之前没有的变量
 
 ::
     
@@ -230,22 +260,67 @@ SQL中级语句
 
 ::
     
-    #方法1：直接看选的课程个数
-    select S#,count(*) from SC group by S# having count(*)=(select count(*) from C);
-    #方法2：SQL语句中的经典的“除法运算”
+    --方法1：直接看选的课程个数
+    select S--,count(*) from SC group by S-- having count(*)=(select count(*) from C);
+    --方法2：SQL语句中的经典的“除法运算”
     select SN from S 
     where not exists (select * from C 
-    where not exists (select * from SC where S#=S.S# and C#=C.C#)
+    where not exists (select * from SC where S--=S.S-- and C--=C.C--)
     );
 
-在 SC 表中加入大量数据，然后用 pivot 函数将它转为宽表 SCwide。再用 unpivot 函数将 SCwide 转为窄表
+* 在 SC 表中加入大量数据，然后用 pivot 函数将它转为宽表 SCwide。再用 unpivot 函数将 SCwide 转为窄表
 
 ::
 
-    #窄表转宽表
-    create table SCwide as select * from SC pivot (sum(G) for C# in ('C1' C1,'C2' C2,'C3' C3,'C4' C4,'C5' C5));
-    #宽表转窄表
+    --窄表转宽表
+    create table SCwide as select * from SC pivot (sum(G) for C-- in ('C1' C1,'C2' C2,'C3' C3,'C4' C4,'C5' C5));
+    --宽表转窄表
     select * from SCwide unpivot(a for b in (C1,C2,C3,C4,C5));
+
+
+列出emp表中员工的姓名与上司的姓名
+
+::
+
+    --自连接，利用表别名实现
+    select a.ename,b.ename from emp a,emp b where a.mgr=b.empno;
+    --外连接，分为左外连接、右外连接、全外连接
+    select a.ename,b.ename from emp a,emp b where a.mgr=b.empno(+);
+    select a.ename,b.ename from emp a left outer join emp b on a.mgr=b.empno;
+    select a.ename,b.ename from emp a right outer join emp b on a.mgr=b.empno;
+    select a.ename,b.ename from emp a full outer join emp b on a.mgr=b.empno;
+
+
+聚组统计函数
+
+::
+
+    --求部门人数超过4个人的部门平均工资
+    select deptno,avg(sal),count(*) from emp 
+    group by deptno having count(*)>4;
+    --列出平均工资超过公司平均工资的部门
+    select dname,avg(sal) from emp natural join dept 
+    group by dname
+    having avg(sal)>(select avg(sal) from emp);
+    --统计每年进入公司工作的员工数量
+    select trunc(hiredate,'year'),count(distinct ename) from emp 
+    group by trunc(hiredate,'year');
+
+
+集合运算（Minus,intersect,union,union all）
+
+
+
+
+索引
+-----------------------------
+索引自动维护，自动使用,主键，候选键对应的列会自动建立索引
+一张表不适合建立太多索引，可以建在大表常用的查询条件上
+11g以后的版本由于大量使用内存缓冲数据，索引的效果对于不太大的表不是很明显（做实验时表的大小应超过内存数）
+索引技术是数据库产品最重要的核心技术之一
+::
+
+    create index test on test_table(number)
 
 
 用户、权限、角色、同义词、视图
@@ -262,22 +337,72 @@ Oracle数据库在安装后会默认创建一些系统用户，如sys、system�
 
 ::
 
-    create user y1 identified by y1; #创建用户y1,密码y1
-    grant connect to y1;  #授权可以连接到Oracle
-    grant create synonym to y1; #授权创建公共同义词
-    grant create view to y1; #授权创建视图
-    grant select any table to y1;  #授权可以访问任意表
+    create user y1 identified by y1; --创建用户y1,密码y1
+    grant connect to y1;  --授权可以连接到Oracle
+    grant create synonym to y1; --授权创建公共同义词
+    grant create view to y1; --授权创建视图
+    grant select any table to y1;  --授权可以访问任意表
     
 
-角色（Role）：一组权限的集合，可以简化权限管理。常见的角色包括：
-CONNECT：允许用户连接到数据库并执行基本操作，如CREATE SESSION、CREATE SYNONYM、CREATE VIEW等
-RESOURCE：允许用户创建自己的数据库对象，如表、序列、视图等
+角色(Role):一组权限的集合，可以简化权限管理。常见的角色包括:
+CONNECT：允许用户连接到数据库并执行基本操作,如CREATE SESSION、CREATE SYNONYM、CREATE VIEW等
+RESOURCE：允许用户创建自己的数据库对象,如表、序列、视图等
 DBA：拥有所有系统权限，是数据库管理员角色
 
 ::
 
-    create role y2;  #创建角色y2
-    grant connect to y2； #为y2角色赋予连接权利
+    create role y2;  --创建角色y2
+    grant connect to y2; --为y2角色赋予连接权利
+
+用户名public是oracle内置用户，相当于windows系统中“everyone”的作用
+授予给public的权限（系统特权，对象特权，角色）可以被全体用户使用（包括未来才建立的用户）
+
+
+
+数据字典
+-----------------------------
+数据字典视图：预先构建好的系统表的视图的公共同义词
+每种视图具有特定的功能，例如查询表的信息，用户信息，权限信息，存储空间等。
+用户可以通过查询数据字典视图了解系统运行情况
+困难：要记住成百上千的视图名
+
+
+列出用户拥有的表、列出用户拥有的表中的列、观看用户拥有的特定对象
+
+::
+
+    desc user_tables  --列出当前用户所拥有的表
+    desc user_views  --列出当前用户拥有的视图
+    desc user_sys_privs   --列出当前用户系统特权
+    select username from dba_users   --列出所有用户（注意是否有权限）
+    select * from user_sys_privs where username='SCOTT'  --列出SCOTT的所有权限（注意是否有权限）
+
+查出系统最近三天创建的表
+
+::
+
+    select owner,object_name from dba_objects
+    where object_type='TABLE'
+    and created>sysdate-3
+
+
+
+
+SQL高级语句（分析函数）
+-------------------------------
+从一个简单的例子出发开始学习分析函数，<over>是分析函数的关键词
+此外还有分区短语（partition by），排序短语（order by），开窗短语（rows/range between...）
+
+::
+
+    select empno,ename,deptno,hiredate,sal,
+    avg(sal) over (partition by deptno order by hiredate) avg_sal,
+    sum(sal) over (partition by deptno order by hiredate) sum_sal,
+    max(sal) over (partition by deptno order by hiredate) max_sal,
+    count(sal) over (partition by job order by hiredate) count_sal
+    from emp;
+
+常用的分析函数包括：1、统计函数 2、排序函数 3、数据分布函数 4、统计分析函数
 
 
 PL/SQL存储函数
@@ -288,8 +413,8 @@ PL/SQL存储函数
 
 ::
 
-    #select * from sys.user_errors where name=upper('y');
-    #利用上面语句更准确的查看错误点
+    --select * from sys.user_errors where name=upper('y');
+    --利用上面语句更准确的查看错误点
     create or replace function y(n number)
     return varchar2 as 
     T1 varchar2(20):='甲乙丙丁戊己庚辛壬癸';
@@ -313,7 +438,7 @@ PL/SQL存储函数
     pragma exception_init(t,-2291);
     --ORA-02291: 违反完整约束条件 (SCOTT.SC_FKS) - 未找到父项关键字
     BEGIN 
-    insert into SC(S#,C#,G) values('S7','C1',100);
+    insert into SC(S--,C--,G) values('S7','C1',100);
     EXCEPTION 
     WHEN t
     Then dbms_output.put_line('该学号不存在'); 
@@ -339,7 +464,7 @@ PL/SQL存储函数
         open cur;
         loop
         FETCH cur INTO cur_row;
-        EXIT WHEN cur%NOTFOUND;  #直到游标抓取为空
+        EXIT WHEN cur%NOTFOUND;  --直到游标抓取为空
         IF cur%ROWCOUNT = 1 THEN
             sal_today := cur_row.close;
         ELSIF cur%ROWCOUNT =2 THEN
@@ -394,7 +519,7 @@ Oracle触发器是Oracle数据库中一种特殊的存储过程，它能够在�
 
 
     create table rec (name varchar2(40),time date);
-    #创建一个表rec用于记录修改情况
+    --创建一个表rec用于记录修改情况
 
     create or replace trigger rec_update
     after update on emp
@@ -421,15 +546,15 @@ Oracle触发器是Oracle数据库中一种特殊的存储过程，它能够在�
 
 ::
 
-    #禁用触发器 
+    --禁用触发器 
     alter trigger tri_uname(触发器名字) disable;
-    #激活触发器 
+    --激活触发器 
     alter trigger tri_uname(触发器名字) enable;
-    #重新编译 
+    --重新编译 
     alter trigger tri_uname(触发器名字) complie;
-    #禁用某个表上的触发器 
+    --禁用某个表上的触发器 
     alter table table_name(表名) diable all triggers;
-    #删除触发器 
+    --删除触发器 
     DROP TRIGGER tri_uname(触发器名字);
 
 
@@ -500,39 +625,3 @@ DBMS_UTILITY：提供数据库管理和调试工具
 
 
 
-数据字典应用
------------------------------
-列出用户拥有的表、列出用户拥有的表中的列、观看用户拥有的特定对象
-
-::
-
-    desc user_tables  #列出当前用户所拥有的表
-    desc user_views  #列出当前用户拥有的视图
-    desc user_sys_privs   #列出当前用户系统特权
-    select username from dba_users   #列出所有用户（注意是否有权限）
-    select * from user_sys_privs where username='SCOTT'  #列出SCOTT的所有权限（注意是否有权限）
-
-查出系统最近三天创建的表
-
-::
-
-    select owner,object_name from dba_objects
-    where object_type='TABLE'
-    and created>sysdate-3
-
-
-SQL高级语句（分析函数）
--------------------------------
-从一个简单的例子出发开始学习分析函数，<over>是分析函数的关键词
-此外还有分区短语（partition by），排序短语（order by），开窗短语（rows/range between...）
-
-::
-
-    select empno,ename,deptno,hiredate,sal,
-    avg(sal) over (partition by deptno order by hiredate) avg_sal,
-    sum(sal) over (partition by deptno order by hiredate) sum_sal,
-    max(sal) over (partition by deptno order by hiredate) max_sal,
-    count(sal) over (partition by job order by hiredate) count_sal
-    from emp;
-
-常用的分析函数包括：1、统计函数 2、排序函数 3、数据分布函数 4、统计分析函数
