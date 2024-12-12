@@ -3,4 +3,5 @@ The PAC Learning Framework
 
 
 Test
-$\sum$
+
+$$E[h(x)\ne c(x)]$$
