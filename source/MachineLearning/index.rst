@@ -8,7 +8,7 @@
 参考书目为Mehryar Mohri的《Foundations of Machine Learning》
 
 
-.. figure: ../_static/ML_image1.png
+.. figure:: ../_static/ML_image1.png
 
 
 .. toctree::
