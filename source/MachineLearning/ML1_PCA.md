@@ -58,7 +58,7 @@ PAC之所以称为概率近似正确，可以作如下理解：如果输入到�
 
 从简单的$n=2$的平面来理解上面这个问题
 
-![平面图形](../source/_static/rectangle.png"图片title")
+![平面图形](../rectangle.png"图片title")
 
 
 
