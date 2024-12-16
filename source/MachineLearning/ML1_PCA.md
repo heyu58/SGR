@@ -60,7 +60,7 @@ PAC之所以称为概率近似正确，可以作如下理解：如果输入到�
 
 ![2维平面问题](rectangle.png "图片title")
 <!--注意在rectangle.png和“图片title”之间的那个空格，没有会无法显示图片-->
-图中的红框表示平行于坐标轴的目标矩形，而黑框是一个假设。请注意是先有红色矩形的概念，再通过实际的样本点来获得假设。（想象有一个红色的得分区域而你不知道，只能通过丢点是否得分来给出你对这个得分区域的假设）
+上图中的红框表示平行于坐标轴的目标矩形（axis-aligned rectangles），而黑框是一个假设。请注意是先有红色矩形的概念，再通过实际的样本点来获得假设。（想象有一个红色的得分区域而你不知道，只能通过抽取的样本点是否得分，来给出你对这个得分区域的假设）
 
 很显然在黑框假设下，存在黑色的非目标点，也并未包含所有的红色目标点。
 
@@ -68,18 +68,51 @@ PAC之所以称为概率近似正确，可以作如下理解：如果输入到�
 
 ![2维平面问题](算法演示.png "图片title")
 
-现在固定$\epsilon>0$令$\mathbb{P}[R]>\epsilon$，$\mathbb{P}[R]$给出了样本在分布$\mathcal{D}$下落入$R$的概率。定义$r_1,r_2,r_3,r_4$分别是矩形边界和蓝线围成的矩形，保证$\mathbb{R}[r_i]\geq\dfrac{\epsilon}{4},i=1,2,3,4$。这四个区域可能会与目前的假设区域$R_S$重叠，而上图为了显示方便没有表现出这一点。
 
-假定目标概念$R=[a_1,b_1]\times[a_2,b_2]$，我们来考虑目前的泛化误差$\mathcal{risk}(R_S)$，显然误差只来自于属于$R$但不属于$R_S$的区域$R-R_S$中。如果定义$\overline{r_i}=R-r_i,i=1,2,3,4$，可以观察到下面这个事实
+现在固定某个准确性水平$\epsilon>0$，令$\underset{x\sim\mathcal{D}}{\mathbb{P}}[R]>\epsilon$，$\underset{x\sim\mathcal{D}}{\mathbb{P}}[R]$给出了样本在分布$\mathcal{D}$下落入$R$假设区域的概率。
+否则如果是定义$\underset{x\sim\mathcal{D}}{\mathbb{P}}[R]\leq\epsilon$
+,那么由于误差只会出现在属于$R$但不属于$R_S$的区域$R-R_S$中，无论具体的样本集$S$情况如何，总会有误差控制
 
-$$R-R_S\in\bigcup_{i=1}^4\overline{r_i}$$
+$$risk(R_S)=\underset{x\sim\mathcal{D}}{\mathbb{P}}[R-R_S]<\underset{x\sim\mathcal{D}}{\mathbb{P}}[R_S]\leq\epsilon$$
 
-而根据$r_i$的定义，可以发现$\mathbb{P}[r_i]\leq1-\dfrac{\epsilon}{4}$
+成立。换句话说，这种情况下无论样本规模$m$多少，总会有$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[risk(R_S)\leq\epsilon]=1$。
 
-那么
+回到$\underset{x\sim\mathcal{D}}{\mathbb{P}}[R]>\epsilon$的情况，假定目标概念$R=[a_1,b_1]\times[a_2,b_2]$。定义$r_1,r_2,r_3,r_4$分别是矩形边界和蓝线围成的矩形，保证 $\underset{x\sim\mathcal{D}}{\mathbb{P}}[r_i]=\dfrac{\epsilon}{4},i=1,2,3,4$
+（这是可以做到的，比如对于$r_1=[a_1,b_1]\times[s_1,b_2]$，定义$s_1=inf\{s:\mathbb{P}[[a_1,b_1]\times[s,b_2]]\geq\epsilon/4\}$）。
+
+请注意这四个区域可能会与假设区域$R_S$重叠，而上图为了显示方便没有表现出这一点。
+
+如果认为$R_S$会与所有的$r_i,i=1,2,3,4$都有重叠，观察到事实
+
+$$R-R_S\in\bigcup_{i=1}^4{r_i}，when\ R_S\cap r_i\ne\emptyset,i=1,2,3,4$$
+
+这意味着$risk(R_S)=\underset{x\sim\mathcal{D}}{\mathbb{P}}[R-R_S]\leq\sum_{i=1}^4\underset{x\sim\mathcal{D}}{\mathbb{P}}[r_i]=\epsilon$，这种情况与样本规模无关。
+
+因此当$R_S$至少与$r_i$中的一个区域无重叠时，$risk(R_S)>\epsilon$才可能发生。因此我们得到如下推导：
+
+$$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[risk(R_S)>\epsilon]\leq\underset{S\sim\mathcal{D}^m}{\mathbb{P}}\left[\bigcup_{i=1}^{4}\{R_S\cap r_i=\emptyset\}\right]\leq\sum_{i=1}^4\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[R_S\cap r_i=\empty]=4(1-\epsilon/4)^m\leq 4e^{(-m\epsilon/4)}$$
+
+（最后一步借由不等式$1-x\leq e^{-x}，x\in\mathbb{R}$）
+
+那么为了对任意的$\delta>0$，有$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[risk(R_S)>\epsilon]\leq\delta$成立，我们使
+$$4e^{-m\epsilon/4}\leq\delta\Leftrightarrow m\geq\frac{4}{\epsilon}log\frac{4}{\delta}$$
+
+这说明，对于我们给出的算法$\mathcal{A}$，对于任意$\epsilon>0,\delta>0$，如果样本规模$m\geq\frac{4}{\epsilon}log\frac{4}{\delta}$，则会有$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[risk(R_S)>\epsilon]\leq\delta$成立。因此平行于坐标轴的矩形概念类是PAC可学习的。（将上面的算法推广至$n$维即可）
+
+**************************************
+例子补充说明：
+- PAC学习算法的样本复杂度为$O\left(\dfrac{4}{\epsilon}log\dfrac{4}{\delta}\right)$
+- 本例还存在其他的PAC学习算法，比如返回不包括负样本点的最大矩形
+- 这种证明思路严格依赖于本例的特殊几何构造，因此并不是可推广的方法
+- 表示样本复杂度的的等价方式是**泛化界**，其指的是以至少$1-\delta$的概率，可得到依赖样本规模$m$和$\delta$的某个量作为$risk(R_S)$的上界。上式中可以反解得到学习算法的如下泛化界$$risk(R_S)\leq\epsilon=\frac{4}{m}log\frac{4}{\delta}$$
 
 
 
+对有限假设集的可学习保证（一致情况）
+-----------------------------
+
+对有限假设集的可学习保证（不一致情况）
+-----------------------------
 
 
 
@@ -87,4 +120,4 @@ $$R-R_S\in\bigcup_{i=1}^4\overline{r_i}$$
 
 附记
 -------------------------------
-PAC学习框架首先由Valiant[1984]提出
+PAC学习框架首先由Valiant[1984]提出。
