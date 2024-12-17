@@ -90,7 +90,7 @@ $$R-R_S\in\bigcup_{i=1}^4{r_i}，when\ R_S\cap r_i\ne\emptyset,i=1,2,3,4$$
 
 因此当$R_S$至少与$r_i$中的一个区域无重叠时，$risk(R_S)>\epsilon$才可能发生。因此我们得到如下推导：
 
-$$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[risk(R_S)>\epsilon]\leq\underset{S\sim\mathcal{D}^m}{\mathbb{P}}\left[\bigcup_{i=1}^{4}\{R_S\cap r_i=\emptyset\}\right]\leq\sum_{i=1}^4\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[R_S\cap r_i=\empty]=4(1-\epsilon/4)^m\leq 4e^{(-m\epsilon/4)}$$
+$$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[risk(R_S)>\epsilon]\leq\underset{S\sim\mathcal{D}^m}{\mathbb{P}}\left[\bigcup_{i=1}^{4}\{R_S\cap r_i=\emptyset\}\right]\leq\sum_{i=1}^4\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[R_S\cap r_i=\emptyset]=4(1-\epsilon/4)^m\leq 4e^{(-m\epsilon/4)}$$
 
 （最后一步借由不等式$1-x\leq e^{-x}，x\in\mathbb{R}$）
 
@@ -133,7 +133,7 @@ $$\mathbb{P}[\hat{R}_S(h)=0]\leq(1-\epsilon)^m$$
 
 进而根据联合界，有下式成立：
 
-$$\mathbb{P}\left[\exist\ h\in\mathcal{H}_{\epsilon}:\hat{R}_S(h)=0\right]=\mathbb{P}\left[\hat{R}_S(h_1)=0\vee...\vee\hat{R}_S(h_{\mathcal{|H_{\epsilon}|}})=0\right]$$
+$$\mathbb{P}\left[\exists\ h\in\mathcal{H}_{\epsilon}:\hat{R}_S(h)=0\right]=\mathbb{P}\left[\hat{R}_S(h_1)=0\vee...\vee\hat{R}_S(h_{\mathcal{|H_{\epsilon}|}})=0\right]$$
 
 $$\leq\sum_{h\in\mathcal{H}_{\epsilon}}\mathbb{P}[\hat{R}_S(h)=0]\leq|\mathcal{H}|(1-\epsilon)^m\leq|\mathcal{H}|e^{-m\epsilon}$$
 
@@ -210,13 +210,14 @@ $$\forall\ h\in\mathcal{H},R(h)\leq\hat{R}_S(h)+\sqrt{\dfrac{log|\mathcal{H}|+lo
 ************************
 $proof$:令$\ h_1,...,h_|\mathcal{H}|$是$\mathcal{H}$的组成元素。利用联合界将推论用于每个假设可得：
 
-$$\mathbb{P}\left[\exist\ h\in\mathcal{H},|\hat{R}_S(h)-R(h)|>\epsilon\right]=\mathbb{P}\left[(|\hat{R}_S(h_1)-R(h_1)|>\epsilon)\vee...\vee(|\hat{R}_S(h_{\mathcal{|H|}})-R(h_{\mathcal{|H|}})|>\epsilon)\right]$$
+$$\mathbb{P}\left[\exists\ h\in\mathcal{H},|\hat{R}_S(h)-R(h)|>\epsilon\right]=\mathbb{P}\left[(|\hat{R}_S(h_1)-R(h_1)|>\epsilon)\vee...\vee(|\hat{R}_S(h_{\mathcal{|H|}})-R(h_{\mathcal{|H|}})|>\epsilon)\right]$$
 
 $$\leq\sum_{h\in\mathcal{H}}\mathbb{P}\left[|\hat{R}_S(h)-R(h)|>\epsilon\right]\leq2|\mathcal{H}|e^{-2m\epsilon^2}$$
 
 令上式右边等于$\delta$，则定理得证。
 
 **********************
+
 
 上面的定理表明了以下几点：
 - 更大的样本规模可以保证更好的泛化误差，并且其泛化上界随着$\mathcal{|H|}$呈对数型增加
