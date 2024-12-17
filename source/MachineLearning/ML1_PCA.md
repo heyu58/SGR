@@ -169,6 +169,37 @@ $$m\geq\frac{1}{\epsilon}\left((log2)\times2^n+log\frac{1}{\delta}\right)$$
 
 为了在这种更一般的情况喜爱给出学习保证，我们将利用**Hoeffding不等式**或者下面的推论（关于泛化误差与单一假设的经验误差）：
 
+**引理**：*固定$\epsilon>0$，令$S$表示数目为$m$的独立同分布样本集，则对于任意假设$h:\mathcal{X}\rightarrow\{0,1\}$（标签是二值的），有如下不等式成立：*
+
+$$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[\hat{R}_S(h)-R(h)\geq\epsilon]\leq e^{-2m\epsilon^2}$$
+
+$$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[\hat{R}_S(h)-R(h)\leq-\epsilon]\leq e^{-2m\epsilon^2}$$
+
+*根据联合界，结合上面两个不等式得到双边不等式：*
+
+$$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}\left[\left|\hat{R}_S(h)-R(h)\right|\geq\epsilon\right]\leq 2e^{-2m\epsilon^2}$$
+
+***************************
+$proof$:可以直接由**Hoeffding不等式**得到
+**************************
+
+令上式右边等于$\delta$并反解$\epsilon$可以得到如下的单一假设误差界
+
+**推论，单一假设泛化界**:*固定一个假设$h:\mathcal{X}\rightarrow\{0,1\}$，则对于任意$\delta>0$，以至少$1-\delta$的概率，有如下不等式成立：*
+
+$$R(h)\leq\hat{R}_S(h)+\sqrt{\dfrac{log\dfrac{2}{\delta}}{2m}}$$
+
+### 一个例子：抛硬币中的经验误差与泛化误差的差距
+假设有一个偏置的硬币，其正面朝上的概率为$p$，我们的假设总是猜测硬币的结果为反面。那么在这样的设定下，真实误差率为$R(h)=p$，通过独立同分布的训练样本可以得到经验概率$\hat{p}$，进而得到经验误差$\hat{R}_S(h)=\hat{P}$。那么根据上述推论，以至少$1-\delta$的概率，我们有如下保证：
+
+$$|p-\hat{p}|\leq\sqrt{\frac{log\dfrac{2}{\delta}}{2m}}$$
+
+如果设定$\delta=0.02$并采用500个训练样本，则至少以$98\%$的概率，对于经验概率$\hat{p}$的精度有如下的保证：
+
+$$|p-\hat{p}|\leq\sqrt{\frac{log\dfrac{2}{0.02}}{2\times500}}\approx0.48$$
+
+*************************************************
+
 
 
 附记
