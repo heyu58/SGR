@@ -95,6 +95,7 @@ $$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[risk(R_S)>\epsilon]\leq\underset{S\s
 （最后一步借由不等式$1-x\leq e^{-x}，x\in\mathbb{R}$）
 
 那么为了对任意的$\delta>0$，有$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[risk(R_S)>\epsilon]\leq\delta$成立，我们使
+
 $$4e^{-m\epsilon/4}\leq\delta\Leftrightarrow m\geq\frac{4}{\epsilon}log\frac{4}{\delta}$$
 
 这说明，对于我们给出的算法$\mathcal{A}$，对于任意$\epsilon>0,\delta>0$，如果样本规模$m\geq\frac{4}{\epsilon}log\frac{4}{\delta}$，则会有$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}[risk(R_S)>\epsilon]\leq\delta$成立。因此平行于坐标轴的矩形概念类是PAC可学习的。（将上面的算法推广至$n$维即可）
@@ -108,8 +109,6 @@ $$4e^{-m\epsilon/4}\leq\delta\Leftrightarrow m\geq\frac{4}{\epsilon}log\frac{4}{
 - 表示样本复杂度的的等价方式是**泛化界**，其指的是以至少$1-\delta$的概率，可得到依赖样本规模$m$和$\delta$的某个量作为$risk(R_S)$的上界。上式中可以反解得到学习算法的如下泛化界
 
 $$risk(R_S)\leq\epsilon=\frac{4}{m}log\frac{4}{\delta}$$
-
-
 
 对有限假设集的可学习保证（一致情况）
 -----------------------------
@@ -134,7 +133,7 @@ $$\mathbb{P}[\hat{R}_S(h)=0]\leq(1-\epsilon)^m$$
 
 进而根据联合界，有下式成立：
 
-$$\mathbb{P}\left[\exist h\in\mathcal{H}_{\epsilon}:\hat{R}_S(h)=0\right]=\mathbb{P}\left[\hat{R}_S(h_1)=0\vee...\vee\hat{R}_S(h_{\mathcal{|H_{\epsilon}|}})=0\right]$$
+$$\mathbb{P}\left[\exist\ h\in\mathcal{H}_{\epsilon}:\hat{R}_S(h)=0\right]=\mathbb{P}\left[\hat{R}_S(h_1)=0\vee...\vee\hat{R}_S(h_{\mathcal{|H_{\epsilon}|}})=0\right]$$
 
 $$\leq\sum_{h\in\mathcal{H}_{\epsilon}}\mathbb{P}[\hat{R}_S(h)=0]\leq|\mathcal{H}|(1-\epsilon)^m\leq|\mathcal{H}|e^{-m\epsilon}$$
 
@@ -181,6 +180,7 @@ $$\underset{S\sim\mathcal{D}^m}{\mathbb{P}}\left[\left|\hat{R}_S(h)-R(h)\right|\
 
 ***************************
 $proof$:可以直接由**Hoeffding不等式**得到
+
 **************************
 
 令上式右边等于$\delta$并反解$\epsilon$可以得到如下的单一假设误差界
@@ -198,10 +198,36 @@ $$|p-\hat{p}|\leq\sqrt{\frac{log\dfrac{2}{\delta}}{2m}}$$
 
 $$|p-\hat{p}|\leq\sqrt{\frac{log\dfrac{2}{0.02}}{2\times500}}\approx0.48$$
 
+上面的例子告诉我们，当我们的假设是固定的单一假设时（硬币的结果为反面），泛化误差是有上界的。然而考虑随意的训练样本，得到的假设$h_S$并不是固定的（有一定的随机性），此时泛化误差$R(h_S)$是一个随机变量，而且一般与经验误差的期望$\mathbb{E}[\hat{R}_S(h_S)]$（是个常数）不同。
 *************************************************
 
+如果希望仿照一致的情况，需要一个**一致收敛界**，即对所有的假设$h\in\mathcal{H}$都以高概率成立的界，我们有如下定理：
+
+**学习界——有限假设集，不一致情况**：*令$\mathcal{H}$为一个有限的假设集，则对于任意的$\delta>0$，以至少$1-\delta$的概率，有下面的等式成立：*
+
+$$\forall\ h\in\mathcal{H},R(h)\leq\hat{R}_S(h)+\sqrt{\dfrac{log|\mathcal{H}|+log\dfrac{2}{\delta}}{2m}}$$
+
+************************
+$proof$:令$\ h_1,...,h_|\mathcal{H}|$是$\mathcal{H}$的组成元素。利用联合界将推论用于每个假设可得：
+
+$$\mathbb{P}\left[\exist\ h\in\mathcal{H},|\hat{R}_S(h)-R(h)|>\epsilon\right]=\mathbb{P}\left[(|\hat{R}_S(h_1)-R(h_1)|>\epsilon)\vee...\vee(|\hat{R}_S(h_{\mathcal{|H|}})-R(h_{\mathcal{|H|}})|>\epsilon)\right]$$
+
+$$\leq\sum_{h\in\mathcal{H}}\mathbb{P}\left[|\hat{R}_S(h)-R(h)|>\epsilon\right]\leq2|\mathcal{H}|e^{-2m\epsilon^2}$$
+
+令上式右边等于$\delta$，则定理得证。
+
+**********************
+
+上面的定理表明了以下几点：
+- 更大的样本规模可以保证更好的泛化误差，并且其泛化上界随着$\mathcal{|H|}$呈对数型增加
+- 当$\mathcal{|H|}$固定时，欲达到与一致情况相同的误差需要付出更多的带标签样本，并且由于根号的存在，这个代价并不小。 
+- 减小经验误差与控制假设集的势需要权衡考虑。更大的假设集会是第二项变大，但可以减少第一项中的经验误差。显然经验误差接近的时候，更小的假设集更好。（**奥卡姆剃刀原则**）
 
 
 附记
 -------------------------------
 PAC学习框架首先由Valiant[1984]提出。
+
+本节中我们得到了PAC框架给出的机器学习重要的实践准则：
+- 机器习算法将在更大规模的带标签训练样本上获得更大收益。
+- 在检验误差接近的情况下（准确率接近），假设集越小（越简单的假设）的算法越好
