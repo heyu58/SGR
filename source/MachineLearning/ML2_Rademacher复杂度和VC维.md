@@ -15,3 +15,15 @@ Rademacher复杂度
 我们重新回忆一下之前使用的符号系统：**概念**$c:\mathcal{X}\rightarrow\mathcal{Y}$指的是从样本集合$\mathcal{X}$到标签集合$\mathcal{Y}$的一个映射，
 $\mathcal{H}$表示假设集（是一个固定的，由所有可能的概念组成的集合），$\mathcal{H}$与$\mathcal{C}$不是必须一致的。
 
+本节的大部分结论都是一般性结论，并针对任意损失函数$L:\mathcal{Y}\times\mathcal{Y}\rightarrow\mathbb{R}$都成立。在下文中$\mathcal{G}$将被一般化解释为**关于$\mathcal{H}$的损失函数族**，用将$\mathcal{Z}=\mathcal{X}\times\mathcal{Y}$映射到$\mathbb{R}:$
+$$\mathcal{G}=\{g:(x,y)\rightarrow L(h(x),y):h\in\mathcal{H}\}$$
+一般地，函数族$\mathcal{G}$可以将任意输入空间$\mathcal{Z}$映射到$\mathbb{R}$
+
+Rademacher复杂度通过衡量一个假设集拟合噪声的程度，来捕获函数族的丰富度。（*The Rademacher complexity captures the richness of a family of functions by
+measuring the degree to which a hypothesis set can fit random noise.*）
+
+---------------------------------
+**经验Rademacher复杂度**
+
+**Rademacher复杂度**
+
