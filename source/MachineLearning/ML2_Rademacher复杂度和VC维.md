@@ -23,7 +23,8 @@ Rademacher复杂度通过衡量一个假设集拟合噪声的程度，来捕获�
 measuring the degree to which a hypothesis set can fit random noise.*）
 
 ---------------------------------
-**经验Rademacher复杂度**
+**经验Rademacher复杂度**：
+$$\hat{\mathfrak{R}}_S(G)=\underset{\sigma}{E}\left[\underset{g\in G}{sup}\frac{1}{m}\sum_{i=1}^m\sigma_ig(z_i)\right]$$
 
 **Rademacher复杂度**
 
