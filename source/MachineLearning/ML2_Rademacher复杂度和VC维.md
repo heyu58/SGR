@@ -13,6 +13,7 @@ Rademacher复杂度和VC维
 Rademacher复杂度
 --------------------------------
 我们重新回忆一下之前使用的符号系统：**概念** $c:\mathcal{X}\rightarrow\mathcal{Y}$指的是从样本集合$\mathcal{X}$到标签集合$\mathcal{Y}$的一个映射，
+
 $\mathcal{H}$表示假设集（是一个固定的，由所有可能的概念组成的集合），$\mathcal{H}$与$\mathcal{C}$不是必须一致的。
 
 本节的大部分结论都是一般性结论，并针对任意损失函数$L:\mathcal{Y}\times\mathcal{Y}\rightarrow\mathbb{R}$都成立。在下文中
@@ -33,7 +34,9 @@ $$\hat{\mathfrak{R}}_S(G)=\underset{\sigma}{E}\left[\underset{g\in G}{sup}\frac{
 *其中$\mathbf{\sigma}=(\sigma_1,...,\sigma_m)^T$，$\sigma_i$是取值为$\{+1,-1\}$的独立同分布随机变量。这些随机变量$\sigma_i$被称作RAdemacher变量。*
 
 如果我们令$\mathbf{g}_s=[g(z_1),g(z_2),...,g(z_m)]^T$表示函数$g$在样本集$S$上的取值，则经验Rademacher复杂度可以重新定义为
+
 $$\hat{\mathfrak{R}}_S(\mathcal{G})=\underset{\sigma}{E}\left[\underset{g\in\mathcal{G}}{sup}\frac{\mathbf{\sigma}\cdot\mathbf{g}_s}{m}\right]$$
+
 显然期望里的内积$\mathbf{\sigma}\cdot\mathbf{g}_s$衡量了$\mathbf{g}_s$和随机噪声向量$\mathbf{\sigma}$的关联度，而上确界$\underset{g\in\mathcal{G}}{sup}\dfrac{\mathbf{\sigma}\cdot\mathbf{g}_s}{m}$则给出了函数族$\mathcal{G}$与随机噪声$\mathbf{\sigma}$在样本集$S$上关联程度的度量。这样的经验RAdemacher复杂度描述了函数族$\mathcal{G}$的丰富度：更丰富或更复杂的函数族可以产生更多的$\mathbf{g}_s$，在平均意义下将会更好地与随机噪声相关联。
 
 **Rademacher复杂度**：令$\mathcal{D}$表示样本分布，对于任意整数$m\geq 1$，函数族$\mathcal{G}$的Rademacher复杂度定义为所有规模为$m$、依据分布$\mathcal{D}$得到的样本集的经验Rademacher复杂度的期望，即
