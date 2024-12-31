@@ -33,6 +33,7 @@ conf.py文件中添加
    DP_homework3
    DP_homework4
    DP_homework5
+   DP_homework6
 
 
 
