@@ -19,7 +19,9 @@ $\mathcal{H}$表示假设集（是一个固定的，由所有可能的概念组�
 本节的大部分结论都是一般性结论，并针对任意损失函数$L:\mathcal{Y}\times\mathcal{Y}\rightarrow\mathbb{R}$都成立。在下文中
 $\mathcal{G}$将被一般化解释为**关于$\mathcal{H}$的损失函数族**，用将$\mathcal{Z}=\mathcal{X}\times\mathcal{Y}$映射到$\mathbb{R}:$
 
-$$\mathcal{G}=\{g:(x,y)\rightarrow L(h(x),y):h\in\mathcal{H}\}$$
+$$
+\mathcal{G}=\{g:(x,y)\rightarrow L(h(x),y):h\in\mathcal{H}\}
+$$
 
 一般地，函数族$\mathcal{G}$可以将任意输入空间$\mathcal{Z}$映射到$\mathbb{R}$
 
@@ -29,15 +31,23 @@ measuring the degree to which a hypothesis set can fit random noise.*）
 ---------------------------------
 **经验Rademacher复杂度**：*令$\mathcal{G}$表示能够将输入空间$\mathcal{Z}$映射到$\mathbb{R}$的某一函数族，设$S=(Z_1,Z_2,...Z_m)$为包含$\mathcal{Z}$中元素且有固定样本规模$m$的样本集。则$\mathcal{G}$关于$S$的经验Rademacher复杂度定义为*
 
-$$\hat{\mathfrak{R}}_S(G)=\underset{\sigma}{E}\left[\underset{g\in G}{sup}\frac{1}{m}\sum_{i=1}^m\sigma_ig(z_i)\right]$$
+$$
+\hat{\mathfrak{R}}_S(G)=\underset{\sigma}{E}\left[\underset{g\in G}{sup}\frac{1}{m}\sum_{i=1}^m\sigma_ig(z_i)\right]
+$$
 
-*其中$\mathbf{\sigma}=(\sigma_1,...,\sigma_m)^T$，$\sigma_i$是取值为$\{+1,-1\}$的独立同分布随机变量。这些随机变量$\sigma_i$被称作RAdemacher变量。*
+*其中$\mathbf{\sigma}=(\sigma_1,...,\sigma_m)^T$，$\sigma_i$是取值为$\{+1,-1\}$的独立同分布随机变量。这些随机变量$\sigma_i$被称作RAdemacher变量*
 
-如果我们令$\mathbf{g}_s=[g(z_1),g(z_2),...,g(z_m)]^T$表示函数$g$在样本集$S$上的取值，则经验Rademacher复杂度可以重新定义为
+------------------------------------------
 
-$$\hat{\mathfrak{R}}_S(\mathcal{G})=\underset{\sigma}{E}\left[\underset{g\in\mathcal{G}}{sup}\frac{\mathbf{\sigma}\cdot\mathbf{g}_s}{m}\right]$$
+如果我们令 $\mathbf{g}_s=[g(z_1),g(z_2),...,g(z_m)]^T$表示函数$g$在样本集$S$上的取值，则经验Rademacher复杂度可以重新定义为
 
-显然期望里的内积$\mathbf{\sigma}\cdot\mathbf{g}_s$衡量了$\mathbf{g}_s$和随机噪声向量$\mathbf{\sigma}$的关联度，而上确界$\underset{g\in\mathcal{G}}{sup}\dfrac{\mathbf{\sigma}\cdot\mathbf{g}_s}{m}$则给出了函数族$\mathcal{G}$与随机噪声$\mathbf{\sigma}$在样本集$S$上关联程度的度量。这样的经验RAdemacher复杂度描述了函数族$\mathcal{G}$的丰富度：更丰富或更复杂的函数族可以产生更多的$\mathbf{g}_s$，在平均意义下将会更好地与随机噪声相关联。
+$$
+\hat{\mathfrak{R}}_S(\mathcal{G})=\underset{\sigma}{E}\left[\underset{g\in\mathcal{G}}{sup}\frac{\mathbf{\sigma}\cdot\mathbf{g}_s}{m}\right]
+$$
+
+显然期望里的内积$\mathbf{\sigma}\cdot\mathbf{g}_s$衡量了$\mathbf{g}_s$和随机噪声向量$\mathbf{\sigma}$的关联度，而上确界$\underset{g\in\mathcal{G}}{sup}\dfrac{\mathbf{\sigma}\cdot\mathbf{g}_s}{m}$则给出了函数族$\mathcal{G}$与随机噪声$\mathbf{\sigma}$在样本集$S$上关联程度的度量。
+
+这样的经验RAdemacher复杂度描述了函数族$\mathcal{G}$的丰富度：更丰富或更复杂的函数族可以产生更多的$\mathbf{g}_s$，在平均意义下将会更好地与随机噪声相关联。
 
 **Rademacher复杂度**：令$\mathcal{D}$表示样本分布，对于任意整数$m\geq 1$，函数族$\mathcal{G}$的Rademacher复杂度定义为所有规模为$m$、依据分布$\mathcal{D}$得到的样本集的经验Rademacher复杂度的期望，即
 
