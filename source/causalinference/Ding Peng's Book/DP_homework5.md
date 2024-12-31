@@ -1,7 +1,11 @@
 #### 21.1 Variance of Wald estimator
 
+由于$\hat{\tau_D}=\overline{D_1}-\overline{D_0}=\frac{1}{n_1}\sum Z_iD_i-\frac{1}{n_0}\sum(1-Z_i)D_i$
+
+我们总可以找到样本使得$P(\hat{\tau_D}=0)>0$
+
 $$
-Var(\hat{\tau_c})=Var(\frac{\hat{\tau_Y}}{\hat{\tau_D}})=？？？
+Var(\hat{\tau_c})=Var(\frac{\hat{\tau_Y}}{\hat{\tau_D}})=\infty
 $$
 
 #### 21.3 Prove Theorem
