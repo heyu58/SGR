@@ -32,10 +32,12 @@ $$\hat{\mathfrak{R}}_S(\mathcal{G})=\underset{\sigma}{E}\left[\underset{g\in\mat
 显然期望里的内积$\mathbf{\sigma}\cdot\mathbf{g}_s$衡量了$\mathbf{g}_s$和随机噪声向量$\mathbf{\sigma}$的关联度，而上确界$\underset{g\in\mathcal{G}}{sup}\dfrac{\mathbf{\sigma}\cdot\mathbf{g}_s}{m}$则给出了函数族$\mathcal{G}$与随机噪声$\mathbf{\sigma}$在样本集$S$上关联程度的度量。这样的经验RAdemacher复杂度描述了函数族$\mathcal{G}$的丰富度：更丰富或更复杂的函数族可以产生更多的$\mathbf{g}_s$，在平均意义下将会更好地与随机噪声相关联。
 
 **Rademacher复杂度**：令$\mathcal{D}$表示样本分布，对于任意整数$m\geq 1$，函数族$\mathcal{G}$的Rademacher复杂度定义为所有规模为$m$、依据分布$\mathcal{D}$得到的样本集的经验Rademacher复杂度的期望，即
+
 $$\mathfrak{R}_m(\mathcal{G})=\underset{S\sim\mathcal{D}^m}{\mathbb{E}}[\hat{\mathfrak{R}_s}(\mathcal{G})]$$
 
 ------------------------------------
 **生长函数**：*假设集$\mathcal{H}$的生长函数$\prod_\mathcal{H}:\mathbb{N}\rightarrow\mathbb{N}$，定义为*
+
 $$\forall m\in\mathbb{N}，\prod_{\mathcal{H}}(m)=\underset{\{x_1,...,x_m\}\subseteq X}{max}|\{(h(x_1),...,h(x_m)):h\in\mathcal{H}\}|$$
 换言之，$\prod_{\mathcal{H}}(m)$表示运用假设集$\mathcal{H}$内的元素能够将$m$个点完成分类的最大方式数。这提供了另一种衡量假设集$\mathcal{H}$丰富度的方式。然而与Ramdemacher复杂度不一样的是，这一度量并不依赖与样本分布，这意味值它只是一个纯粹的组合测量概念。
 
