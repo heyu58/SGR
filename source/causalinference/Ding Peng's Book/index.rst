@@ -28,12 +28,12 @@ conf.py文件中添加
    :maxdepth: 1
    :titlesonly:
 
-   DP_homework1
-   DP_homework2
-   DP_homework3
-   DP_homework4
-   DP_homework5
-   DP_homework6
+   DP_homework1.md
+   DP_homework2.md
+   DP_homework3.md
+   DP_homework4.md
+   DP_homework5.md
+   DP_homework6.md
 
 
 
