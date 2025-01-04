@@ -254,3 +254,63 @@ $$
 $$
 利用克莱姆法则\hat{\beta}_{CF}=\frac{\begin{vmatrix}D^TY&D^T\check{D}\\\check{D}^TY&\check{D}^T\check{D}\end{vmatrix}}{\begin{vmatrix}D^TD&D^T\check{D}\\D^T\check{D}&\check{D}^T\check{D}\end{vmatrix}}\overset{省略大量步骤}{=}\frac{(D-\check{D})^TY}{D^T(D-\check{D})}=\frac{\hat{D}^TY}{D^T\hat{D}}=\frac{\hat{D}^TY}{\hat{D}^T\hat{D}}=\left(\sum_i\hat{D_i}\hat{D_i}^T\right)^{-1}\sum_i\hat{D_i}Y_i=\hat{\beta}_{TSLS}
 $$
+
+#### 26.2 Principal score method under monotonicity
+
+from the Assumption 26.1(CRE) and 26.2(monotonicity)
+
+$$
+E\{w_{1,(1,1)}(X)Y|Z=1,M=1\}\overset{Tower Property}{=}E\left\{E\left[w_{1,(1,1)}(X)Y|Z=1,M=1,X\right]|Z=1,M=1\right\}
+$$
+
+$$
+=\int E[Y|Z=1,M=1,X]w_{1,(1,1)}(X)P[X|Z=1,M=1]dX
+$$
+
+而
+
+$$
+E\{Y(1)|M(1)=1,M(0)=0\}=E\left\{E[Y(1)|M(1)=1,M(0)=0,X]|M(1)=1,M(0)=0\right\}
+$$
+
+$$
+=\int E[Y|Z=1,M=1,X]P[X|M(1)=1,M(0)=0]dX
+$$
+
+所以只要证明$P[X|M(1)=1,M(0)=0]=w_{1,(1,1)}(X)P[X|Z=1,M=1]$
+
+后续利用贝叶斯定理即可（上面是蒋教授给出的解答）
+
+下面是我自己的推导（过程存在问题）
+
+考虑$E[w_{1,(1,1)}(X)Y|Z=1,M=1,X]$
+
+$$
+=E\left\{\frac{\pi_{(1,1)}(X)}{\pi_{(1,0)}(X)+\pi_{(1,1)}(X)}\frac{\pi_{(1,0)}+\pi_{(1,1)}}{\pi_{(1,1)}}Y|Z=1,M=1,X\right\}
+=E\{Y|Z=1,M=1,X\}$$
+
+$$
+=E\left\{\frac{\pi_{(1,1)}(X)}{\pi_{(1,1)}(X)+\pi_{(1,0)}(X)}Y(1)|M(1)=1,M(0)=1,X\right\}+E\left\{\frac{\pi_{(1,0)}(X)}{\pi_{(1,1)}(X)+\pi_{(1,0)}(X)}Y(1)|M(1)=1,M(0)=0,X\right\}
+$$
+
+$$
+\overset{Assumption 26.5}{=}E\{Y(1)|M(1)=1,M(0)=1,X\}
+$$
+
+所以$\tau(1,1)=E\{E[Y(1)|M(1)=1,M(0)=1,X]|Z=1,M=1\}-E(Y|Z=0,M=1)=E[Y(1)-Y(0)|M(1)=1,M(0)=1]$
+
+对于$\tau(0,0)$中的$E\{w_{0,(0,0)}Y|Z=0,M=0\}$可以观察到
+
+$$
+E\{Y|Z=0,M=0\}=E\{Y(0)|M(0)=0\}=\frac{\pi_{(0,0)}}{\pi_{(0,0)}+\pi_{(1,0)}}E\{Y(0)|M(1)=0,M(0)=0\}+\frac{\pi_{(1,0)}}{\pi_{(0,0)}+\pi_{(1,0)}}E\{Y(0)|M(1)=1,M(0)=0\}
+$$
+
+应用类似上面的推导，可以得到
+
+$\tau(0,0)=E[Y|Z=1,M=0]-E[Y(0)|M(1)=0]=E[Y(1)-Y(0)|M(1)=0,M(0)=0]$
+
+将上面分解思想应用到$E\{Y|Z=1,M=1\}$和$E\{Y|Z=0,M=0\}$可以得到
+
+$$
+\tau(1,0)=E\{w_{1,(1,0)}Y|Z=1,M=1\}-E\{w_{0,(1,0)}Y|Z=0,M=0\}=E\{Y(1)-Y(0)|M(1)=1,M(0)=0\}
+$$
