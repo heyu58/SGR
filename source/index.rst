@@ -13,7 +13,7 @@
    :maxdepth: 2
    :caption: Contents:
    
-   Causalinference/index
+   causalinference/index
    Oracle/index
    MachineLearning/index
    others/index
