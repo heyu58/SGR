@@ -27,7 +27,7 @@ conf.py文件中添加
 .. toctree::
    :maxdepth: 1
    :titlesonly:
-
+   
    DP_homework1.md
    DP_homework2.md
    DP_homework3.md

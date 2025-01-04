@@ -61,6 +61,7 @@ $$\forall m\in\mathbb{N}，\prod_{\mathcal{H}}(m)=\underset{\{x_1,...,x_m\}\subs
 
 ------------------------------------
 **VC维**：*一个假设集$\mathcal{H}$的VC-维是指它能完全打散的最大集合的大小：*
+
 $$VCdim(\mathcal{H})=max\{m:\prod_\mathcal{H}(m)=2^m\}$$
 
 VC维同样是一个纯粹的组合测量概念，但是它往往比生长函数（或Ramdemacher复杂度）更便于计算。我们来解释一下上面的$\prod_\mathcal{H}(m)=2^m$：对于一个由$m\geq 1$个元素的集合$S$，假设集$\mathcal{H}$实现了$S$所有可能的分裂，称之为$\mathcal{H}$打散了$S$
