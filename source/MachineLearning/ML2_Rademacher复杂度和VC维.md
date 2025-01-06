@@ -65,3 +65,16 @@ $$\forall m\in\mathbb{N}，\prod_{\mathcal{H}}(m)=\underset{\{x_1,...,x_m\}\subs
 $$VCdim(\mathcal{H})=max\{m:\prod_\mathcal{H}(m)=2^m\}$$
 
 VC维同样是一个纯粹的组合测量概念，但是它往往比生长函数（或Ramdemacher复杂度）更便于计算。我们来解释一下上面的$\prod_\mathcal{H}(m)=2^m$：对于一个由$m\geq 1$个元素的集合$S$，假设集$\mathcal{H}$实现了$S$所有可能的分裂，称之为$\mathcal{H}$打散了$S$
+
+
+附记
+-------------------------------
+运用Rademacher复杂度在学习中得到泛化误差界的原创性工作来自Koltchinskii,Bartlett和Mendelson等人的著作。VC-维的概念由Vapnik和Chervonenkis引入，此后被进一步完善。VC-维的概念除了在机器学习领域起到关键作用以外，在计算机科学，数学等领域也被广泛使用。
+
+在机器学习领域还有许多测量函数复杂度的方式，包括：**覆盖数**，**填充数**
+
+在原书的课后习题中，有关于正则化神经网络的Rademacher复杂度。对于输入空间$\mathcal{X}=\mathbb{R}^{n_1}$，如果考虑将$\mathcal{X}$映射到$\mathbb{R}$的正则化神经网络族:
+
+$$\mathcal{H}=\left\{x\rightarrow \sum_{j=1}^{n_2}w_j\sigma(u_j,x):\parallel w\parallel_1\leq\Lambda^/,\parallel u_j\parallel_2\leq\Lambda,\forall j\in[1,n_2]\right\}$$
+
+其中，$\sigma$是L-Lipschitz函数，例如$\sigma$可以是1-Lipschitz的sigmoid函数。我们可以利用Rademacher复杂度给出$\hat{\mathcal{R}}_S(\mathcal{H})$的上界。
