@@ -48,7 +48,7 @@ $$h_s^{ERM}=\underset{h\in\mathcal{H}}{argmin}\hat{R}_s(h)$$
 $$\mathbb{P}\big[R(h_s^{ERM})-\underset{h\in\mathcal{H}}{inf}R(h)>\epsilon\big]\leq\mathbb{P}\big[\underset{h\in\mathcal{H}}{sup}|R(h)-\hat{R}_s(h)|>\frac{\epsilon}{2}\big]$$
 
 *******************************
-$proof:$由定义得到的$\exist\epsilon>0,R(h_{\epsilon})\leq\underset{h\in\mathcal{H}}{inf}R(h)+\epsilon$和$\hat{R}_s(h_s^{ERM})\leq\hat{R}_s(h_{\epsilon})$即可简单推导得到
+$proof:$由定义得到的$\exists\epsilon>0,R(h_{\epsilon})\leq\underset{h\in\mathcal{H}}{inf}R(h)+\epsilon$和$\hat{R}_s(h_s^{ERM})\leq\hat{R}_s(h_{\epsilon})$即可简单推导得到
 
 *******************************
 
