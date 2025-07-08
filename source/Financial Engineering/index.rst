@@ -13,4 +13,5 @@
    :titlesonly:
 
    Black-Scholes模型.md
+   LPPL模型.md
    
