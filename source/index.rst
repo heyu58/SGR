@@ -14,6 +14,7 @@
    :caption: Contents:
    
    causalinference/index
+   statisticalinference/index
    Oracle/index
    MachineLearning/index
    Financial Engineering/index
