@@ -395,8 +395,8 @@ DBA：拥有所有系统权限，是数据库管理员角色
 
 SQL高级语句（分析函数）
 -------------------------------
-从下面一个简单的例子出发开始学习分析函数，<over>是分析函数的关键词
-此外还有分区短语（partition by），排序短语（order by），开窗短语（rows/range between...）
+可以理解为聚组统计的推广，但功能更加丰富，市面上关于分析函数的资料不多（可能太复杂不好理解）
+从下面一个简单的例子出发开始学习分析函数，基本由关键词<over>，分区短语（partition by），排序短语（order by），开窗短语（rows/range between...）构成
 
 ::
 
@@ -407,9 +407,13 @@ SQL高级语句（分析函数）
     count(sal) over (partition by job order by hiredate) count_sal
     from emp;
 
-开窗短语用于指出在分区内的统计范围（基于数前后行数）无论怎样分区，以及怎样制定开窗，分析函数的统计范围都不超出所在分区以外
+开窗短语用于指出在分区内的统计范围（基于数前后行数）无论怎样分区，以及怎样制定开窗，分析函数的统计范围都不超出所在分区以外。没有窗短语关键词时，缺省的关键词
+为*rows between unbounded preceding and current row*
+
 *rows between 1 preceding and current row*
+
 *rows between 1 preceding and 3 preceding*
+
 *rows between 2 preceding and 1 following*
 
 ::
@@ -419,12 +423,13 @@ SQL高级语句（分析函数）
     range between unbounded preceding and 365 following) sum_sal
     from emp;
 
+*range between unbounded preceding and 365 following*从本分区最开始的行一直累加到hiredate+365（值范围）的行
 
 * 常用的分析函数包括：
 
 * 1、统计函数：avg,max,min,sum,count
 
-* 2、排序函数：RANK，DENSE_RANK，FIRST，FIRST_VALUE，LAST，LAST_VALUE，LAG，LEAD，ROW_NUMBER
+* 2、排序函数：RANK（有并列1、2、2、4、4、6），DENSE_RANK（有并列1、2、2、3、3、4），FIRST，FIRST_VALUE，LAST，LAST_VALUE，LAG，LEAD，ROW_NUMBER（无并列）
 
 * 3、数据分布函数：cume_dist，Percent_rank
 
