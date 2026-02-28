@@ -401,7 +401,8 @@ SQL高级语句（分析函数）
 ::
 
     select empno,ename,deptno,hiredate,sal,
-    avg(sal) over (partition by deptno order by hiredate) avg_sal,
+    avg(sal) over (partition by deptno order by hiredate) avg_sal,# 注意不需要as来命名
+    min(sal) over (order by hiredate) min_sal
     sum(sal) over (partition by deptno order by hiredate) sum_sal,
     max(sal) over (partition by deptno order by hiredate) max_sal,
     count(sal) over (partition by job order by hiredate) count_sal
@@ -656,3 +657,47 @@ DBMS_UTILITY：提供数据库管理和调试工具
 
 
 
+
+工作中关于SQL使用
+-------------------------------
+
+group by，order by, where,using()等语句的多条件匹配。
+
+::
+    --每天每个视频的访问次数
+    SELECT 
+        DATE(time) AS play_date,
+        video_id,
+        COUNT(*) AS play_count
+    FROM t_video_play_action
+    GROUP BY DATE(time), video_id
+
+case when 条件1 and 条件2 then 值1 else 值2——语句多条件判断
+
+::
+    select *,
+        CASE 
+            WHEN income < 20000 THEN"Low Salary"
+            WHEN income <= 50000 THEN"Average Salary"
+            WHEN income > 50000 THEN"High Salary"
+        END as category
+    from Accounts
+
+limit 限制显示(可结合order by来控制top问题)
+
+::      
+
+时间类型操作
+
+::  
+    ---日期加减
+    DATE_ADD(table.recordDate,interval 1 day)
+    DATE_SUB(table.recordDate,interval 1 day)
+
+字符类型操作
+
+::  
+    ---字符串匹配查找电子邮件
+    SELECT *
+    FROM Users
+    WHERE mail COLLATE utf8_bin REGEXP '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode\\.com$';
